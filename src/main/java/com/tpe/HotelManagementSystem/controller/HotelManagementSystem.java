@@ -1,5 +1,6 @@
 package com.tpe.HotelManagementSystem.controller;
 
+import com.tpe.HotelManagementSystem.config.HibernateUtil;
 import jdk.swing.interop.SwingInterOpUtils;
 
 import java.util.Scanner;
@@ -27,16 +28,24 @@ public class HotelManagementSystem {
 
             switch(choice){
                 case 1:
+                    displayHotelOperationsMenu();
                     break;
                 case 2:
+                    displayRoomOperationsMenu();
                     break;
                 case 3:
+                    displayGuestOperationsMenu();
                     break;
                 case 4:
+                    displayReservationOperationsMenu();
                     break;
                 case 0:
+                    exit = true;
+                    System.out.println("Good Bye...");
+                    HibernateUtil.shutDown();
                     break;
                 default:
+                    System.out.println("Invalid choice. Please try again.");
                     break;
             }
 
@@ -65,6 +74,7 @@ public class HotelManagementSystem {
 
             switch(choice){
                 case 1:
+                    //1-a: save hotel
                     break;
                 case 2:
                     break;
