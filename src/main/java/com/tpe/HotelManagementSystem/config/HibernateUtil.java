@@ -1,6 +1,10 @@
 package com.tpe.HotelManagementSystem.config;
 
-import org.hibernate.HibernateException;
+import com.tpe.HotelManagementSystem.domain.Guest;
+import com.tpe.HotelManagementSystem.domain.Hotel;
+import com.tpe.HotelManagementSystem.domain.Reservation;
+import com.tpe.HotelManagementSystem.domain.Room;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -10,18 +14,32 @@ public class HibernateUtil {
     private static SessionFactory sessionFactory;
     static{
         try {
-            Configuration config = new Configuration().configure("hibernate.cfg.xml");
-            sessionFactory = config.buildSessionFactory();
-        } catch (Throwable e) {
-            System.out.println("session factory olusturulurken bir sorunla karsilasildi!!! "+e);
+            Configuration configuration = new Configuration()
+                    .configure("hibernate.cfg.xml")
+                    .addAnnotatedClass(Hotel.class)
+                    .addAnnotatedClass(Room.class)
+                    .addAnnotatedClass(Reservation.class)
+                    .addAnnotatedClass(Guest.class);
+            sessionFactory = configuration.buildSessionFactory();
+        } catch (Exception e) {
+            System.err.println("Initialization of session factory is FAILED!!!");
         }
     }
+    //getter SF
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 
+    //SF kapatalım
     public static void shutDown(){
-        sessionFactory.close();
+        getSessionFactory().close();
+    }
+
+    //sessionı kapatalım
+    public static void closeSession(Session session){
+        if(session != null && session.isOpen()){ //session.isOpen() session hala açık mı kontrolüdür
+            session.close();
+        }
     }
 
 

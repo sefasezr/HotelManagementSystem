@@ -1,8 +1,6 @@
-package com.tpe.HotelManagementSystem.model;
+package com.tpe.HotelManagementSystem.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 //2.adım hotel isimli bir class olusturduk ve bu classi entegre edebilmek icin entity ve table anotasyonlarını kullandık
 @Entity
