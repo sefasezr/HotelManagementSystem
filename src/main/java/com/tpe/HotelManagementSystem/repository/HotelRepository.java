@@ -5,6 +5,8 @@ import com.tpe.HotelManagementSystem.domain.Hotel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 //Room,Guest ve Reservation için service ve repo classlarını oluşturalım:ÖDEV
 public class HotelRepository {
 
@@ -23,5 +25,34 @@ public class HotelRepository {
             HibernateUtil.closeSession(session);
         }
 
+    }
+
+    //2-b:
+    public Hotel findById(Long id) {
+        try{
+            session = HibernateUtil.getSessionFactory().openSession();
+            return session.get(Hotel.class, id);
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+        return null;
+    }
+
+    //3-b:
+    public List<Hotel> findAll(){
+        try{
+            session = HibernateUtil.getSessionFactory().openSession();
+            //select * from t_hotel
+            List<Hotel> hotelList = session.createQuery("FROM Hotel", Hotel.class).getResultList();
+            return hotelList;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }finally {
+            HibernateUtil.closeSession(session);
+        }
+        return null;
     }
 }

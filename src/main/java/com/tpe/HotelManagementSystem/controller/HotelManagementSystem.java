@@ -1,6 +1,8 @@
 package com.tpe.HotelManagementSystem.controller;
 
 import com.tpe.HotelManagementSystem.config.HibernateUtil;
+import com.tpe.HotelManagementSystem.repository.HotelRepository;
+import com.tpe.HotelManagementSystem.service.HotelService;
 import jdk.swing.interop.SwingInterOpUtils;
 
 import java.util.Scanner;
@@ -11,6 +13,9 @@ public class HotelManagementSystem {
 
     //ana menü
     public static void displayHotelManagementSystemMenu(){
+        //sadece bir tane hotel repo oluşturdum tüm uygulamada kullanabiliriz artık
+        HotelRepository hotelRepository = new HotelRepository();
+        HotelService hotelService = new HotelService(hotelRepository);
 
         boolean exit = false;
 
@@ -28,7 +33,7 @@ public class HotelManagementSystem {
 
             switch(choice){
                 case 1:
-                    displayHotelOperationsMenu();
+                    displayHotelOperationsMenu(hotelService);
                     break;
                 case 2:
                     displayRoomOperationsMenu();
@@ -54,7 +59,7 @@ public class HotelManagementSystem {
     }
 
     //hotel operations
-    private static void displayHotelOperationsMenu(){
+    private static void displayHotelOperationsMenu(HotelService hotelService){
 
         System.out.println("Hotel Operation Menu");
 
@@ -74,13 +79,21 @@ public class HotelManagementSystem {
 
             switch(choice){
                 case 1:
-                    //1-a: save hotel
+                    hotelService.saveHotel();
                     break;
                 case 2:
+                    //2-a:hotel bulma
+                    System.out.println("Enter hotel ID : ");
+                    Long id = scanner.nextLong();
+                    scanner.nextLine();
+
+                    hotelService.findHotelById(id);
                     break;
                 case 3:
                     break;
                 case 4:
+                    //3-a: tüm hotelleri listeleme
+                    hotelService.getAllHotels();
                     break;
                 case 5:
                     break;
