@@ -18,7 +18,7 @@ public class ReservationRepository {
             session.save(reservation);
             tx.commit();
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }finally {
             HibernateUtils.closeSession(session);
         }
@@ -47,5 +47,18 @@ public class ReservationRepository {
             HibernateUtils.closeSession(session);
         }
         return null;
+    }
+
+    public void delete(Reservation foundReservation) {
+        try{
+            session = HibernateUtils.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            session.delete(foundReservation);
+            tx.commit();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }finally {
+            HibernateUtils.closeSession(session);
+        }
     }
 }

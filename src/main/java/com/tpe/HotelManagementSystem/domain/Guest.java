@@ -11,7 +11,9 @@ public class Guest {
 
     //TODO: auto generated
     @Id//pk
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
 
@@ -34,9 +36,6 @@ public class Guest {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

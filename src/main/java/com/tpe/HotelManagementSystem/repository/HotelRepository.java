@@ -75,6 +75,17 @@ public class HotelRepository {
 
     //8-c: update t_hotel set name=? , location=? where id = ?
     public void updateHotel(Hotel existingHotel) {
+        try{
+            session = HibernateUtils.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
 
+            session.update(existingHotel);
+
+            transaction.commit();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }finally {
+            HibernateUtils.closeSession(session);
+        }
     }
 }

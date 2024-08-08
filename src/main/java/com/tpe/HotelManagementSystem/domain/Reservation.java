@@ -9,6 +9,7 @@ public class Reservation {
 
     //TODO: auto generated
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -31,9 +32,6 @@ public class Reservation {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public LocalDate getCheckInDate() {
         return checkInDate;

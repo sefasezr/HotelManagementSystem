@@ -1,5 +1,6 @@
 package com.tpe.HotelManagementSystem.service;
 
+import com.tpe.HotelManagementSystem.domain.Address;
 import com.tpe.HotelManagementSystem.domain.Guest;
 import com.tpe.HotelManagementSystem.exception.GuestNotFoundException;
 import com.tpe.HotelManagementSystem.repository.GuestRepository;
@@ -10,24 +11,28 @@ import java.util.Scanner;
 
 public class GuestService {
     Scanner scan  = new Scanner(System.in);
-    GuestRepository guestRepository;
+
+    private final GuestRepository guestRepository;
+
     public GuestService(GuestRepository guestRepository) {
         this.guestRepository = guestRepository;
     }
 
     public Guest findGuestById(Long guestId) {
-        Guest foundGuest = guestRepository.findById(guestId);
+
         try{
+            Guest foundGuest = guestRepository.findById(guestId);
             if(foundGuest != null){
+                System.out.println("*----------------------------------*");
                 System.out.println(foundGuest);
                 return foundGuest;
             }else{
-                throw new GuestNotFoundException("Guest not found");
+                throw new GuestNotFoundException("Guest not found with id " + guestId);
             }
         }catch (GuestNotFoundException e){
-            e.printStackTrace();
-            return null;
+            System.out.println(e.getMessage());
         }
+        return null;
     }
 
 
@@ -43,20 +48,36 @@ public class GuestService {
         }
     }
 
-    public void deleteGuest(Long deletedGuestId) {
+    public void deleteGuestById(Long deletedGuestId) {
         Guest foundGuest = guestRepository.findById(deletedGuestId);
+        //guestin rezervasyonları varsa orphanremoval ile bunlar otomatik silinsin
         if(foundGuest != null){
-            System.out.println(foundGuest);
-            System.out.println("Are you sure to delete this hotel? : ");
-            System.out.println("Please answer with Y or N");
-            String select = scan.nextLine();
-
-            if(select.equalsIgnoreCase("Y")){
-                guestRepository.delete(foundGuest);
-                System.out.println("Room deleted successfully.");
-            }else{
-                System.out.println("Delete operation is CANCELLED!!!");
-            }
+            guestRepository.delete(foundGuest);
+            System.out.println("Guest is removed successfully..Guest id : "+foundGuest.getId());
         }
+    }
+
+    public void saveGuest() {
+        Guest guest = new Guest();
+
+        System.out.println("Enter guest name : ");
+        guest.setName(scan.nextLine());
+
+        Address address = new Address();
+
+        System.out.println("Enter street : ");
+        address.setStreet(scan.nextLine());
+        System.out.println("Enter city : ");
+        address.setCity(scan.nextLine());
+        System.out.println("Enter country : ");
+        address.setCountry(scan.nextLine());
+        System.out.println("Enter zipcode : ");
+        address.setZipcode(scan.nextInt());
+
+        guest.setAddress(address);
+
+        guestRepository.save(guest);
+        System.out.println("Guest is saved successfully...");
+
     }
 }

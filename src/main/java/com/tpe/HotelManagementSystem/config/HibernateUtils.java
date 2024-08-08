@@ -20,6 +20,7 @@ public class HibernateUtils {
                     .addAnnotatedClass(Room.class)
                     .addAnnotatedClass(Reservation.class)
                     .addAnnotatedClass(Guest.class);
+
             sessionFactory = configuration.buildSessionFactory();
         } catch (Exception e) {
             System.err.println("Initialization of session factory is FAILED!!!");

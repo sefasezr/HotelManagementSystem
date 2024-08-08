@@ -18,7 +18,7 @@ public class GuestRepository {
             session.save(guest);
             transaction.commit();
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }finally {
             HibernateUtils.closeSession(session);
         }
@@ -55,12 +55,10 @@ public class GuestRepository {
         try{
             session = HibernateUtils.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-
             session.delete(foundGuest);
-
             transaction.commit();
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }finally {
             HibernateUtils.closeSession(session);
         }
