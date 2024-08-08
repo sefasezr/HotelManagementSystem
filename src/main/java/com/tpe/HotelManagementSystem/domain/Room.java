@@ -1,9 +1,6 @@
 package com.tpe.HotelManagementSystem.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +17,7 @@ public class Room {
 
     //bir hotelin birçok odası olabilir, fakat bir oda bir hotele ait olabilir
     //todo: many-to-one
+    @ManyToOne
     private Hotel hotel;
 
     //todo: one-to-many

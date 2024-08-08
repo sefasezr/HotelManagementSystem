@@ -2,7 +2,9 @@ package com.tpe.HotelManagementSystem.controller;
 
 import com.tpe.HotelManagementSystem.config.HibernateUtils;
 import com.tpe.HotelManagementSystem.repository.HotelRepository;
+import com.tpe.HotelManagementSystem.repository.RoomRepository;
 import com.tpe.HotelManagementSystem.service.HotelService;
+import com.tpe.HotelManagementSystem.service.RoomService;
 
 import java.util.Scanner;
 
@@ -15,6 +17,9 @@ public class HotelManagementSystem {
         //sadece bir tane hotel repo oluşturdum tüm uygulamada kullanabiliriz artık
         HotelRepository hotelRepository = new HotelRepository();
         HotelService hotelService = new HotelService(hotelRepository);
+        RoomRepository roomRepository = new RoomRepository();
+        RoomService roomService = new RoomService(roomRepository, hotelService);
+
 
         boolean exit = false;
 
@@ -35,7 +40,7 @@ public class HotelManagementSystem {
                     displayHotelOperationsMenu(hotelService);
                     break;
                 case 2:
-                    displayRoomOperationsMenu();
+                    displayRoomOperationsMenu(roomService);
                     break;
                 case 3:
                     displayGuestOperationsMenu();
@@ -109,7 +114,7 @@ public class HotelManagementSystem {
     }
 
     //room operations
-    private static void displayRoomOperationsMenu(){
+    private static void displayRoomOperationsMenu(RoomService roomService){
 
         System.out.println("Room Operation Menu");
         boolean exit = false;
@@ -125,12 +130,21 @@ public class HotelManagementSystem {
             scanner.nextLine();
             switch(choice){
                 case 1:
+                    //4-a : oda ekleme
+                    roomService.saveRoom();
                     break;
                 case 2:
+                    //5-a :
+                    System.out.println("Enter room ID : ");
+                    Long roomId = scanner.nextLong();
+                    scanner.nextLine();
+                    roomService.findRoomById(roomId);
                     break;
                 case 3:
                     break;
                 case 4:
+                    //6-a:
+                    roomService.getAllRooms();
                     break;
                 case 0:
                     exit = true;

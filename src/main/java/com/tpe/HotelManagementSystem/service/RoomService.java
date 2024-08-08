@@ -1,4 +1,85 @@
 package com.tpe.HotelManagementSystem.service;
 
+import com.tpe.HotelManagementSystem.domain.Hotel;
+import com.tpe.HotelManagementSystem.domain.Room;
+import com.tpe.HotelManagementSystem.exception.RoomNotFoundException;
+import com.tpe.HotelManagementSystem.repository.RoomRepository;
+
+import java.util.List;
+import java.util.Scanner;
+
+//serviceler servicelerle veya kendi repoları ile iletişime geçer
+
 public class RoomService {
+    private Scanner scan  = new Scanner(System.in);
+
+    private final HotelService hotelService;
+
+    private final RoomRepository roomRepository;
+
+    public RoomService(RoomRepository roomRepository, HotelService hotelService) {
+        this.roomRepository = roomRepository;
+        this.hotelService = hotelService;
+    }
+
+    //4-b
+    public void saveRoom(){
+
+        Room room = new Room();
+
+        System.out.println("Enter room ID : ");
+        room.setId(scan.nextLong());
+        scan.nextLine();
+
+        System.out.println("Enter room number : ");
+        room.setNumber(scan.nextLine());
+
+        System.out.println("Enter room capacity : ");
+        room.setCapacity(scan.nextInt());
+        scan.nextLine();
+
+        System.out.println("Enter hotel ID : ");
+        Long hotelId = scan.nextLong();
+        scan.nextLine();
+
+        Hotel foundHotel = hotelService.findHotelById(hotelId);
+        room.setHotel(foundHotel);//oda hangi otele aitse set edildi.
+
+        //bu odayı otelin oda listesine ekleyelim
+        foundHotel.getRooms().add(room);
+
+        roomRepository.save(room);//tabloya eklendi
+        System.out.println("Room is saved successfully. Room ID : "+room.getId());
+
+
+    }
+    //5-b : Id si verilen odayı tablodan bulup yazdırma ve geri dondurme
+    public Room findRoomById(Long roomId) {
+        Room foundRoom = roomRepository.findById(roomId);
+        try{
+            if(foundRoom != null){
+                System.out.println(foundRoom);
+                return foundRoom;
+            }else{
+                throw new RoomNotFoundException("Room not found by ID : "+roomId);
+            }
+        }catch (RoomNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    //6-b eger tablo bos degilse tum listeleri goruntulerim
+    public void getAllRooms() {
+        List<Room> allRooms = roomRepository.findAll();
+        if(!allRooms.isEmpty()){
+            System.out.println("*******************ALL ROOMS**********************");
+            for(Room room : allRooms){
+                System.out.println(room);
+            }
+            System.out.println("-----------------------------------------------------");
+        }else{
+            System.out.println("Room List is empty");
+        }
+    }
 }

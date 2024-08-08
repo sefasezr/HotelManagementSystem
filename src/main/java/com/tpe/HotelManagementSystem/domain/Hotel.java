@@ -21,6 +21,7 @@ public class Hotel {
     private String location;
 
     //todo : one-to-many
+    @OneToMany(mappedBy = "hotel")
     private List<Room> rooms = new ArrayList<>();
 
     //4.adım daha hızlı deger atamas ıyapabilmek icin constructor olusturdum
