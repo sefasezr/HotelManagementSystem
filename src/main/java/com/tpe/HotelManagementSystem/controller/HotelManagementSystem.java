@@ -17,6 +17,7 @@ public class HotelManagementSystem {
         //sadece bir tane hotel repo oluşturdum tüm uygulamada kullanabiliriz artık
         HotelRepository hotelRepository = new HotelRepository();
         HotelService hotelService = new HotelService(hotelRepository);
+
         RoomRepository roomRepository = new RoomRepository();
         RoomService roomService = new RoomService(roomRepository, hotelService);
 

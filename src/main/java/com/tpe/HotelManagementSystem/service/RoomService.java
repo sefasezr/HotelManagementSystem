@@ -43,13 +43,20 @@ public class RoomService {
         scan.nextLine();
 
         Hotel foundHotel = hotelService.findHotelById(hotelId);
-        room.setHotel(foundHotel);//oda hangi otele aitse set edildi.
+        if(foundHotel != null){
+            room.setHotel(foundHotel);//oda hangi otele aitse set edildi.
 
-        //bu odayı otelin oda listesine ekleyelim
-        foundHotel.getRooms().add(room);
+            //t_room tablosunda hotel_id sütununa bulunan otelin sadece idsini ekler
 
-        roomRepository.save(room);//tabloya eklendi
-        System.out.println("Room is saved successfully. Room ID : "+room.getId());
+            //bu odayı otelin oda listesine ekleyelim.
+            //Ancak uygulamada çift yönlü bir ilişki kurup hotel tarafında mappedBy yaptığımız için manuel eklemeye gerek klamadı
+            //foundHotel.getRooms().add(room);  --->mappedBy bu işlemi bizim yerimize yapıyor.
+
+            roomRepository.save(room);//tabloya eklendi
+            System.out.println("Room is saved successfully. Room ID : "+room.getId());
+        }else{
+            System.out.println("Room could not saved!!!");
+        }
 
 
     }

@@ -17,7 +17,8 @@ public class Room {
 
     //bir hotelin birçok odası olabilir, fakat bir oda bir hotele ait olabilir
     //todo: many-to-one
-    @ManyToOne
+    @ManyToOne //room ile hotel arasında ilişki kurulmasını sağlar:room tablosuna FK(hotel_id) ekler
+    @JoinColumn(name = "hotel_id",nullable = false)//opsiyonel belki FK ismini özelliğini değiştirmek istesek
     private Hotel hotel;
 
     //todo: one-to-many
