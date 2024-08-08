@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//2.adım hotel isimli bir class olusturduk ve bu classi entegre edebilmek icin entity ve table anotasyonlarını kullandık
+//2.adım hotel isimli bir class olusturdum ve bu classi entegre edebilmek icin entity ve table anotasyonlarını kullandım
 @Entity
 @Table(name = "t_hotel")
 public class Hotel {
@@ -20,8 +20,14 @@ public class Hotel {
     @Column(nullable = false)
     private String location;
 
-    //todo : one-to-many
-    @OneToMany(mappedBy = "hotel")//hotel ile room arasında ilişki kurulmasını sağlar
+    //orphanRemoval
+    //A otelinin odaları: 11,12,13
+    //A otelinin oda listesinden 11i çıkarırsam:room tabledan 11i siler.
+
+    //CascadeTypeREMOVE ise
+    //A otelinin odaları: 11,12,13
+    //A otelinin oda listesinden 11i çıkarırsam:room tableda 11 hala var
+    @OneToMany(mappedBy = "hotel",cascade = CascadeType.REMOVE)//hotel ile room arasında ilişki kurulmasını sağlar
     private List<Room> rooms = new ArrayList<>();
 
     //4.adım daha hızlı deger atamas ıyapabilmek icin constructor olusturdum

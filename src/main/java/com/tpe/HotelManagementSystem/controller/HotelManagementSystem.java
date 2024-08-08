@@ -1,8 +1,10 @@
 package com.tpe.HotelManagementSystem.controller;
 
 import com.tpe.HotelManagementSystem.config.HibernateUtils;
+import com.tpe.HotelManagementSystem.repository.GuestRepository;
 import com.tpe.HotelManagementSystem.repository.HotelRepository;
 import com.tpe.HotelManagementSystem.repository.RoomRepository;
+import com.tpe.HotelManagementSystem.service.GuestService;
 import com.tpe.HotelManagementSystem.service.HotelService;
 import com.tpe.HotelManagementSystem.service.RoomService;
 
@@ -20,6 +22,9 @@ public class HotelManagementSystem {
 
         RoomRepository roomRepository = new RoomRepository();
         RoomService roomService = new RoomService(roomRepository, hotelService);
+
+        GuestRepository guestRepository = new GuestRepository();
+        GuestService guestService = new GuestService(guestRepository);
 
 
         boolean exit = false;
@@ -44,7 +49,7 @@ public class HotelManagementSystem {
                     displayRoomOperationsMenu(roomService);
                     break;
                 case 3:
-                    displayGuestOperationsMenu();
+                    displayGuestOperationsMenu(guestService);
                     break;
                 case 4:
                     displayReservationOperationsMenu();
@@ -95,12 +100,24 @@ public class HotelManagementSystem {
                     hotelService.findHotelById(id);
                     break;
                 case 3:
+                    //7-a : hotel silme
+                    System.out.println("Enter hotel ID : ");
+                    Long hotelId = scanner.nextLong();
+                    scanner.nextLine();
+
+                    hotelService.deleteHotel(hotelId);
                     break;
                 case 4:
                     //3-a: tüm hotelleri listeleme
                     hotelService.getAllHotels();
                     break;
                 case 5:
+                    //8-a: hotel güncelleme
+                    System.out.println("Enter hotel ID : ");
+                    Long updatedHotelId = scanner.nextLong();
+                    scanner.nextLine();
+                    hotelService.updateHotelById(updatedHotelId);
+
                     break;
                 case 0:
                     exit = true;
@@ -142,6 +159,10 @@ public class HotelManagementSystem {
                     roomService.findRoomById(roomId);
                     break;
                 case 3:
+                    System.out.println("Enter room ID : ");
+                    Long deletedRoomId = scanner.nextLong();
+                    scanner.nextLine();
+                    roomService.deleteRoom(deletedRoomId);
                     break;
                 case 4:
                     //6-a:
@@ -159,7 +180,7 @@ public class HotelManagementSystem {
     }
 
     //guest operations
-    private static void displayGuestOperationsMenu(){
+    private static void displayGuestOperationsMenu(GuestService guestService){
         System.out.println("Guest Operation Menu");
 
         boolean exit = false;
@@ -177,10 +198,19 @@ public class HotelManagementSystem {
                 case 1:
                     break;
                 case 2:
+                    System.out.println("Enter guest ID : ");
+                    Long guestId = scanner.nextLong();
+                    scanner.nextLine();
+                    guestService.findGuestById(guestId);
                     break;
                 case 3:
+                    System.out.println("Enter guest ID : ");
+                    Long deletedGuestId = scanner.nextLong();
+                    scanner.nextLine();
+                    guestService.deleteGuest(deletedGuestId);
                     break;
                 case 4:
+                    guestService.getAllGuest();
                     break;
                 case 0:
                     exit = true;
@@ -211,12 +241,15 @@ public class HotelManagementSystem {
             scanner.nextLine();
             switch(choice){
                 case 1:
+
                     break;
                 case 2:
+                    //ödev
                     break;
                 case 3:
                     break;
                 case 4:
+                    //ödev
                     break;
                 case 0:
                     exit = true;

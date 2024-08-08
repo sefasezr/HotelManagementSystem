@@ -55,4 +55,26 @@ public class HotelRepository {
         }
         return null;
     }
+    //7-c
+    public void delete(Hotel hotel) {
+        try {
+            session = HibernateUtils.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            session.delete(hotel);
+
+            transaction.commit();
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }finally {
+            HibernateUtils.closeSession(session);
+        }
+
+    }
+
+    //8-c: update t_hotel set name=? , location=? where id = ?
+    public void updateHotel(Hotel existingHotel) {
+
+    }
 }

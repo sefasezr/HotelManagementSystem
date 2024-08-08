@@ -49,4 +49,19 @@ public class RoomRepository {
         }
         return null;
     }
+
+    public void delete(Room foundRoom) {
+        try{
+            session= HibernateUtils.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+
+            session.delete(foundRoom);
+
+            tx.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            HibernateUtils.closeSession(session);
+        }
+    }
 }

@@ -9,18 +9,26 @@ import java.util.List;
 @Table(name = "t_guest")
 public class Guest {
 
+    //TODO: auto generated
     @Id//pk
     private Long id;
     @Column(nullable = false)
     private String name;
-    //todo:
+
+
     private LocalDateTime createDate;
-    //todo:
-    @OneToMany
+
+
+    @OneToMany(mappedBy = "guest",orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<>();
 
     @Embedded
     private Address address;
+
+    @PrePersist //datayı kaydetmeden hemen önce createDate'i günceller
+    public void prePersist(){
+        this.createDate = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
@@ -42,9 +50,6 @@ public class Guest {
         return createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
 
     public List<Reservation> getReservations() {
         return reservations;

@@ -21,7 +21,7 @@ public class Room {
     @JoinColumn(name = "hotel_id",nullable = false)//opsiyonel belki FK ismini özelliğini değiştirmek istesek
     private Hotel hotel;
 
-    //todo: one-to-many
+    @OneToMany(mappedBy = "room",orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<Reservation>();
 
     public Room(){}

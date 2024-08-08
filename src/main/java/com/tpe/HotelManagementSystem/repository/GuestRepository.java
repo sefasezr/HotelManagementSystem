@@ -50,4 +50,19 @@ public class GuestRepository {
         return null;
 
     }
+
+    public void delete(Guest foundGuest) {
+        try{
+            session = HibernateUtils.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            session.delete(foundGuest);
+
+            transaction.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            HibernateUtils.closeSession(session);
+        }
+    }
 }

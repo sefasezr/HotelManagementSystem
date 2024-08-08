@@ -72,21 +72,38 @@ public class RoomService {
             }
         }catch (RoomNotFoundException e){
             System.out.println(e.getMessage());
+            return null;
         }
-        return null;
+
     }
 
     //6-b eger tablo bos degilse tum listeleri goruntulerim
     public void getAllRooms() {
-        List<Room> allRooms = roomRepository.findAll();
-        if(!allRooms.isEmpty()){
-            System.out.println("*******************ALL ROOMS**********************");
-            for(Room room : allRooms){
+        List<Room> rooms = roomRepository.findAll();
+        if(!rooms.isEmpty()){
+            for(Room room : rooms){
                 System.out.println(room);
             }
             System.out.println("-----------------------------------------------------");
         }else{
             System.out.println("Room List is empty");
+        }
+    }
+
+    public void deleteRoom(Long deletedRoomId) {
+        Room foundRoom = roomRepository.findById(deletedRoomId);
+        if(foundRoom != null){
+            System.out.println(foundRoom);
+            System.out.println("Are you sure to delete this hotel? : ");
+            System.out.println("Please answer with Y or N");
+            String select = scan.nextLine();
+
+            if(select.equalsIgnoreCase("Y")){
+                roomRepository.delete(foundRoom);
+                System.out.println("Room deleted successfully.");
+            }else{
+                System.out.println("Delete operation is CANCELLED!!!");
+            }
         }
     }
 }
